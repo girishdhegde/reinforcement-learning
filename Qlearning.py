@@ -78,8 +78,8 @@ class agent():
                 action                = self.bPolicy(state)
                 obs, reward, done, _  = self.env.step(action)
                 # '''Uncomment these only for cart-pole environment'''
-                if done:
-                    reward = -200
+#                 if done:
+#                     reward = -200
                 score                += reward
                 next_state            = self.get_state(obs)
                 next_action           = self.tPolicy(next_state)
