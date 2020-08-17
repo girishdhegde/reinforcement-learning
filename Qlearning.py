@@ -58,7 +58,7 @@ class agent():
     def tPolicy(self, state):
         return np.argmax(self.Q[tuple(state)])
 
-    def learn(self, n_episodes=10000, alpha=0.1, gamma=0.9, eps=1.0, decayRate=None, plot=True, path='./Q.npy', r=-1):
+    def learn(self, n_episodes=10000, alpha=0.1, gamma=0.9, eps=1.0, decayRate=None, plot=True, path='./Q.npy'):
         self.n_episodes = n_episodes
         self.stepSize   = alpha
         self.gamma      = gamma
@@ -79,7 +79,7 @@ class agent():
                 obs, reward, done, _  = self.env.step(action)
                 # '''Uncomment these only for cart-pole environment'''
                 if done:
-                    reward = r
+                    reward = -200
                 score                += reward
                 next_state            = self.get_state(obs)
                 next_action           = self.tPolicy(next_state)
@@ -122,10 +122,10 @@ class agent():
         self.env.close()
 
 if __name__ == '__main__':
-    # qAgent = agent()
-    # qAgent.learn(n_episodes=2000)
-    # qAgent.load('./Q.npy')
-    # qAgent.test()
+    qAgent = agent()
+    qAgent.learn(n_episodes=2000)
+    qAgent.load('./Q.npy')
+    qAgent.test()
 
 
     # qAgent = agent(env='Acrobot-v1', bins=[10, 10, 10, 10, 40, 60], Min=[-1.0, -1.0, -1.0, -1.0, -4*np.pi, -9*np.pi], 
@@ -136,12 +136,8 @@ if __name__ == '__main__':
     
 
 
-    qAgent = agent(env='CartPole-v0', bins=[20, 20, 20, 20], Min=[-0.209, -4, -2.4, -4], 
-                   Max=[0.209, 4, 2.4, 4], actionSpace=[0, 1], maxSteps=200)
-    # ploty = []
-    for r in [-1, -10, -20, -50, -100]:
-        y = qAgent.learn(n_episodes=5000, path='./Qc.npy',plot=False, r=r)
-        plt.plot(y, label=str(r))
-    plt.show()
+    # qAgent = agent(env='CartPole-v0', bins=[20, 20, 20, 20], Min=[-0.209, -4, -2.4, -4], 
+    #                Max=[0.209, 4, 2.4, 4], actionSpace=[0, 1], maxSteps=200)
+    # qAgent.learn(n_episodes=10000, path='./Qc.npy')
     # qAgent.load('./Qc.npy')
     # qAgent.test()
